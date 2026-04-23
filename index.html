@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My School Portfolio - Justin Arge B. Enecillo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <nav class="menu">
+    <a href="index.html" id="nav-home">🏠 Home</a>
+    <a href="dashboard.html" id="nav-dashboard">📊 Dashboard</a>
+    <a href="quiz.html" id="nav-quiz">📝 Quiz</a>
+    <a href="lab.html" id="nav-lab">🧪 Lab Work</a>
+    <a href="exam.html" id="nav-exam">📋 Exam</a>
+</nav>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>My Portfolio <span id="visitCount">(Visited 1 time)</span></h1>
+        <button onclick="resetVisitCount()" class="reset-btn">🔄 Reset Counter</button>
+    </div>
+
+    <!-- Main Profile Card -->
+    <div class="subheader">
+        <div class="main-card">
+            <div class="left-side">
+                <div class="circle-pic" id="profileHover">
+                    <img src="cvsu picture.jpg" alt="Profile Picture" id="profileImg">  
+                </div>  
+            </div>
+
+            <div class="body">
+                <p><strong>Name:</strong> <span id="studentName">Justin Arge B. Enecillo</span></p>
+                <p><strong>Course:</strong> <span id="studentCourse">BSCS</span></p>
+                <p><strong>Section:</strong> <span id="studentSection">1A</span></p>
+                <button onclick="editProfile()" class="edit-btn">✏️ Edit Profile</button>
+            </div>
+
+            <div class="subfooter">
+                <p><strong>Vision:</strong> <span id="visionText">My ideal self is to be the best version of myself...</span></p>
+            </div>
+
+            <div class="footer">
+                <p><strong>Mission:</strong> <span id="missionText">I'm Justin Arge B. Enecillo living in Dasmariñas City...</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="skills">
+        <h2>My Skills <span id="skillCount">(3)</span> <button onclick="addSkill()" class="add-btn">➕</button></h2>
+        <ul id="skillsList">
+            <li onclick="highlightSkill(this)">HTML & CSS</li>
+            <li onclick="highlightSkill(this)">Python Programming</li>
+            <li onclick="highlightSkill(this)">JavaScript</li>
+        </ul>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="projects">
+        <h2>My Projects <span id="projectCount">(2)</span> <button onclick="addProject()" class="add-btn">➕</button></h2>
+        <div class="project" onclick="toggleProject(this)">
+            <h3>Portfolio Website</h3>
+            <p>Shows Bio Data with JavaScript features</p>
+            <span class="project-status" id="proj1-status">Active</span>
+        </div>
+        <div class="project" onclick="toggleProject(this)">
+            <h3>Calculator App</h3>
+            <p>Made with HTML, CSS, JavaScript</p>
+            <span class="project-status" id="proj2-status">Active</span>
+        </div>
+    </div>
+
+    <!-- INLINE JAVASCRIPT INTEGRATION (All Samples Used) -->
+    <script>
+        // ===========================================
+        // JAVASCRIPT INTEGRATION FROM EXAM SAMPLES
+        // ALL INLINE - NO EXTERNAL FILES NEEDED!
+        // ===========================================
+        
+        console.log('🎓 Justin Arge B. Enecillo Portfolio JS Loaded!');
+        
+        // Sample 4: Counter Variables
+        let visitCount = localStorage.getItem('visitCount') || 1;
+        let skillCount = 3;
+        let projectCount = 2;
+        
+        // Update visit counter on load (Sample 3: Change Text)
+        document.getElementById('visitCount').textContent = `(Visited ${visitCount} times)`;
+        
+        // Sample 1: Alert + Sample 3: Change Text
+        function editProfile() {
+            let newName = prompt("Enter your name:", "Justin Arge B. Enecillo");
+            let newCourse = prompt("Enter course:", "BSCS");
+            let newSection = prompt("Enter section:", "1A");
+            
+            if (newName && newCourse && newSection) {
+                document.getElementById('studentName').textContent = newName;
+                document.getElementById('studentCourse').textContent = newCourse;
+                document.getElementById('studentSection').textContent = newSection;
+                alert(`✅ Profile updated!\n${newName} - ${newCourse} ${newSection}`);
+                console.log('Sample 1+3: Profile edited');
+            }
+        }
+        
+        // Sample 4: Counter + Sample 9: Loop
+        function addSkill() {
+            let newSkill = prompt("Enter new skill:");
+            if (newSkill) {
+                let skillList = document.getElementById('skillsList');
+                let newLi = document.createElement('li');
+                newLi.textContent = newSkill;
+                newLi.onclick = function() { highlightSkill(this); };
+                skillList.appendChild(newLi);
+                
+                skillCount++;
+                document.getElementById('skillCount').textContent = `(${skillCount})`;
+                console.log('Sample 4+9: Skill added:', newSkill);
+            }
+        }
+        
+        // Sample 8: Toggle + Sample 3: Change Text
+        function highlightSkill(element) {
+            // Remove previous highlight
+            document.querySelectorAll('#skillsList li').forEach(li => {
+                li.style.backgroundColor = '';
+                li.style.color = '';
+            });
+            // Highlight clicked
+            element.style.backgroundColor = '#667eea';
+            element.style.color = 'white';
+            console.log('Sample 8: Skill highlighted:', element.textContent);
+        }
+        
+        function addProject() {
+            projectCount++;
+            let projectsDiv = document.querySelector('.projects');
+            let newProject = document.createElement('div');
+            newProject.className = 'project';
+            newProject.onclick = function() { toggleProject(this); };
+            newProject.innerHTML = `
+                <h3>New Project #${projectCount}</h3>
+                <p>Created on ${new Date().toLocaleDateString()}</p>
+                <span class="project-status" id="proj${projectCount}-status">Active</span>
+            `;
+            projectsDiv.insertBefore(newProject, projectsDiv.querySelector('.add-btn').parentNode);
+            document.getElementById('projectCount').textContent = `(${projectCount})`;
+        }
+        
+        // Sample 8: Toggle Function
+        function toggleProject(projectDiv) {
+            let status = projectDiv.querySelector('.project-status');
+            if (status.textContent === 'Active') {
+                status.textContent = 'Inactive';
+                status.style.backgroundColor = '#ef4444';
+                status.style.color = 'white';
+            } else {
+                status.textContent = 'Active';
+                status.style.backgroundColor = '#10b981';
+                status.style.color = 'white';
+            }
+            console.log('Sample 8: Project toggled:', projectDiv.querySelector('h3').textContent);
+        }
+        
+        // Sample 4: Visit Counter
+        function resetVisitCount() {
+            visitCount = 1;
+            localStorage.setItem('visitCount', visitCount);
+            document.getElementById('visitCount').textContent = `(Visited ${visitCount} times)`;
+            alert('🔄 Visit counter reset!');
+        }
+        
+        // Update visit count every time page loads
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        document.getElementById('visitCount').textContent = `(Visited ${visitCount} times)`;
+        
+        // Sample 10: All Concepts Demo (Console)
+        console.log('%c📊 Portfolio Stats:', 'font-size: 16px; color: #667eea;');
+        console.log('Skills:', skillCount);
+        console.log('Projects:', projectCount);
+        console.log('Visits:', visitCount);
+        console.log('Ready for BSCS 1A! 🎓');
+    </script>
+</body>
+</html>

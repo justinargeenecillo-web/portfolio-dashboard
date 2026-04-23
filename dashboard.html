@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="menu">
+    <a href="index.html" id="nav-home">🏠 Home</a>
+    <a href="dashboard.html" id="nav-dashboard">📊 Dashboard</a>
+    <a href="quiz.html" id="nav-quiz">📝 Quiz</a>
+    <a href="lab.html" id="nav-lab">🧪 Lab Work</a>
+    <a href="exam.html" id="nav-exam">📋 Exam</a>
+</nav>
+    <div class="dashboard">
+        <h1>📊 My Dashboard</h1>
+        <input type="text" id="searchInput" placeholder="🔍 Search files..." onkeyup="searchFiles()">
+        
+        <div class="stats">
+            <div class="stat">
+                <h2 id="quizCount">3</h2>
+                <p>Quizzes</p>
+            </div>
+            <div class="stat">
+                <h2 id="labCount">2</h2>
+                <p>Lab Works</p>
+            </div>
+            <div class="stat">
+                <h2 id="examCount">1</h2>
+                <p>Major Exams</p>
+            </div>
+        </div>
+        
+        <div class="summary">
+            <p><strong>Total Files:</strong> <span id="totalFiles">6</span></p>
+            <p><strong>Average Grade:</strong> <span id="avgGrade">92%</span></p>
+        </div>
+        <button onclick="calculateAverage()" class="calc-btn">🔢 Recalculate</button>
+    </div>
+
+    <script>
+        // ===========================================
+        // DASHBOARD JAVASCRIPT (INLINE)
+        // ===========================================
+        
+        // Sample 6: If Statement + Sample 10: Grade Checker
+        function calculateAverage() {
+            let scores = [95, 88, 92, 78, 96, 85];
+            let total = 0;
+            
+            // Sample 9: Loop
+            for (let i = 0; i < scores.length; i++) {
+                total += scores[i];
+            }
+            
+            let average = Math.round(total / scores.length);
+            document.getElementById('avgGrade').textContent = average + '%';
+            
+            // Sample 6: If Statement
+            let grade;
+            if (average >= 90) grade = 'A';
+            else if (average >= 80) grade = 'B';
+            else if (average >= 70) grade = 'C';
+            else grade = 'F';
+            
+            alert(`📊 Average: ${average}% (Grade: ${grade})`);
+            console.log('Sample 6+10: Average:', average);
+        }
+        
+        // Sample 5: Input Search
+        function searchFiles() {
+            let searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm.length > 0) {
+                alert(`🔍 Searching for "${searchTerm}"...`);
+            }
+        }
+        
+        console.log('📊 Dashboard JS Loaded!');
+    </script>
+</body>
+</html>
