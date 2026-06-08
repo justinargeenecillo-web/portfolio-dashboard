@@ -4,16 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Files</title>
-     <link rel="stylesheet" href="style.css">
+    <!-- Ensure style.css exists or remove this line if you don't have it -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic styling added here in case style.css is missing */
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .upload-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .menu { background: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        .menu a { color: white; text-decoration: none; margin-right: 15px; }
+        .upload-section { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        .form-group { margin-bottom: 10px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { background: #28a745; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
 </head>
 <body>
-   <nav class="menu">
-    <a href="index.html" id="nav-home">🏠 Home</a>
-    <a href="dashboard.html" id="nav-dashboard">📊 Dashboard</a>
-    <a href="quiz.html" id="nav-quiz">📝 Quiz</a>
-    <a href="lab.html" id="nav-lab">🧪 Lab Work</a>
-    <a href="exam.html" id="nav-exam">📋 Exam</a>
-</nav>
+    <nav class="menu">
+        <a href="index.html" id="nav-home">🏠 Home</a>
+        <a href="dashboard.html" id="nav-dashboard">📊 Dashboard</a>
+        <a href="quiz.html" id="nav-quiz">📝 Quiz</a>
+        <a href="lab.html" id="nav-lab">🧪 Lab Work</a>
+        <a href="exam.html" id="nav-exam">📋 Exam</a>
+    </nav>
 
     <div class="upload-container">
         <!-- QUIZ UPLOAD -->
@@ -42,7 +56,7 @@
             <form id="labForm">
                 <div class="form-group">
                     <label>Description:</label>
-                    <textarea id="labTitle" placeholder="lab" required></textarea>
+                    <textarea id="labTitle" placeholder="Lab description" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>Lab File:</label>
@@ -65,7 +79,7 @@
                     <input type="text" id="examTitle" placeholder="Exam Final" required>
                 </div>
                 <div class="form-group">
-                    <label>Score:</label>
+                    <label>Score (0-100):</label>
                     <input type="number" id="examScore" placeholder="95" min="0" max="100">
                 </div>
                 <div class="form-group">
@@ -83,11 +97,28 @@
 
     <script>
         // ===========================================
-        // UPLOADS JAVASCRIPT (INLINE - FULL FEATURES)
+        // UPLOADS JAVASCRIPT
         // ===========================================
         
         let quizCount = 0, labCount = 0, examCount = 0;
         
+        // --- QUIZ UPLOAD FUNCTION (Added) ---
+        function uploadQuiz() {
+            let title = document.getElementById('quizTitle').value;
+            let file = document.getElementById('quizFile').files[0];
+            let proof = document.getElementById('quizProof').files[0];
+            
+            if (title && file && proof) {
+                quizCount++;
+                document.getElementById('quizCounter').textContent = quizCount;
+                alert(`✅ Quiz "${title}" uploaded!\nTotal Quizzes: ${quizCount}`);
+                document.getElementById('quizForm').reset();
+            } else {
+                alert('❌ Please fill in all fields!');
+            }
+        }
+        
+        // --- LAB UPLOAD FUNCTION (Original) ---
         function uploadLab() {
             let title = document.getElementById('labTitle').value;
             let file = document.getElementById('labFile').files[0];
@@ -96,16 +127,17 @@
             if (title && file && proof) {
                 labCount++;
                 document.getElementById('labCounter').textContent = labCount;
-                alert(`✅ Lab "${title.substring(0,20)}..." uploaded!\nTotal Labs: ${labCount}`);
+                alert(`✅ Lab uploaded!\nDescription: ${title.substring(0,30)}...\nTotal Labs: ${labCount}`);
                 document.getElementById('labForm').reset();
             } else {
                 alert('❌ Fill all fields!');
             }
         }
         
+        // --- EXAM UPLOAD FUNCTION (Improved) ---
         function uploadExam() {
             let title = document.getElementById('examTitle').value;
-            let score = document.getElementById('examScore').value;
+            let scoreInput = document.getElementById('examScore').value;
             let file = document.getElementById('examFile').files[0];
             let proof = document.getElementById('examProof').files[0];
             
@@ -113,16 +145,11 @@
                 examCount++;
                 document.getElementById('examCounter').textContent = examCount;
                 
-                // Sample 10: Grade Checker
-                let grade = score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : 'F';
-                alert(`✅ Exam "${title}" uploaded!\nScore: ${score || 'N/A'} (${grade})\nTotal Exams: ${examCount}`);
-                document.getElementById('examForm').reset();
-            } else {
-                alert('❌ Fill all fields!');
-            }
-        }
-        
-        console.log('📤 Uploads JS Loaded!');
-    </script>
-</body>
-</html>
+                // Logic to calculate grade
+                let displayScore = scoreInput ? scoreInput : "N/A";
+                let grade = "F";
+                
+                if(scoreInput) {
+                    let s = parseInt(scoreInput);
+                    if (s >= 90) grade = 'A';
+                    else if (s >= 80
